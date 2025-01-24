@@ -105,7 +105,7 @@ https://github.com/user-attachments/assets/8f039f07-ce78-4767-8c52-e23ec1d272a2
 ## Dependencies
 - **react-native**: Core framework for mobile development.
 - **expo-location**: For location-based services.
-- **axios**: For API calls.
+- **axios & react-query**: For API calls.
 - **express**: For Backend
 
 ![image](https://github.com/user-attachments/assets/e859bfbf-e86a-4f63-971a-a91789752296)
