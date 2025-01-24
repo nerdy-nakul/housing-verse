@@ -70,6 +70,9 @@ Housing Verse is a React Native application designed to display a list of housin
    npm run dev
    ```
 
+### Note
+- Add your network IP in react-query hooks for smooth functionaling of frontend and backend.
+
 ## UI - Images
 <div style="display: flex;">
     <img src="https://github.com/user-attachments/assets/130b1c94-a9ee-48b6-b4bd-f573dbf5b2b9" alt="Login 0" style="height: 400px; object-fit: cover; margin-right: 10px;">
