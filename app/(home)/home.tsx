@@ -37,19 +37,33 @@ type House = {
 };
 
 const Home = () => {
-  const { data: houses, isPending: isLoadingTasks, error } = useFetchAllHouse();
+  const { data: allHouses, isPending: isLoadingTasks, error } = useFetchAllHouse();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredHouses, setFilteredHouses] = useState<House[]>([]);
+  const [visibleHouses, setVisibleHouses] = useState<House[]>([]);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
-    if (houses) {
-      const filtered = houses.filter((house: House) => {
+    if (allHouses) {
+      const filtered = allHouses.filter((house: House) => {
         const searchFields = `${house.name} ${house.description} ${house.address_cityname} ${house.address_street_name} ${house.address_building_number} ${house.address_country}`.toLowerCase();
         return searchFields.includes(searchQuery.toLowerCase());
       });
       setFilteredHouses(filtered);
+      setVisibleHouses(filtered.slice(0, itemsPerPage));
+      setPage(1);
     }
-  }, [searchQuery, houses]);
+  }, [searchQuery, allHouses]);
+
+  const loadMoreHouses = () => {
+    if (filteredHouses.length > visibleHouses.length) {
+      const nextPage = page + 1;
+      const nextHouses = filteredHouses.slice(0, nextPage * itemsPerPage);
+      setVisibleHouses(nextHouses);
+      setPage(nextPage);
+    }
+  };
 
   if (isLoadingTasks) {
     return (
@@ -81,13 +95,20 @@ const Home = () => {
         onChangeText={setSearchQuery}
       />
       <FlatList
-        data={filteredHouses}
+        data={visibleHouses}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <HouseListItem house={item} />}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <Text style={styles.emptyText}>No houses match your search.</Text>
+        }
+        onEndReached={loadMoreHouses}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          filteredHouses.length > visibleHouses.length ? (
+            <ActivityIndicator size="small" color="#007bff" />
+          ) : null
         }
       />
     </Container>

@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Image,
     View,
+    Pressable,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -36,13 +37,14 @@ export default function LoginScreen() {
     const handleLogin = () => {
         if (validateFields()) {
             setError('');
-            router.push('/home');
+            // router.push('/home');
+            router.replace('/home');
         }
     };
 
     const handleContinueWithoutLogin = () => {
         setError('');
-        router.push('/home');
+        router.replace('/home');
     };
 
     return (
@@ -79,9 +81,26 @@ export default function LoginScreen() {
                 autoComplete="password"
             />
 
+
+
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
                 <Text style={styles.loginButtonText}>Login</Text>
             </TouchableOpacity>
+
+            {/* <Pressable onPress={() => {
+                console.log('pressed');
+
+            }} style={(
+                {
+                    pressed
+                }
+            ) => [
+                {
+                    opacity: pressed ? 0.5 : 1,
+                }
+            ] }>
+                <Text>Click Me</Text>
+            </Pressable> */}
 
             <TouchableOpacity
                 style={styles.continueButton}
